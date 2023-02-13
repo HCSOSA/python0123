@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+#hola mundo
 
 
 array=np.array([[1,2,3,4],[1,2,3,4]]) # tiene que ser homogeneas
@@ -11,7 +12,7 @@ plt.xlabel("x axis caption")
 plt.ylabel("y axis caption") 
 plt.plot(x,y) 
 plt.show()
-
+##
 x = np.arange(1,11) 
 y = 2 * x + 5 
 plt.title("Matplotlib demo") 
