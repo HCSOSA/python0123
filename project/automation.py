@@ -1,6 +1,7 @@
 import pandas as pd
 import os
 import db
+import requests
 
 historicoDolar=[]
 
@@ -9,27 +10,29 @@ message="""
     2)Actualizar data del dolar
 """
 print(message)
-a=int(input('ingrese la tarea a realizar: '))
+e=input('ingrese opcion: ')
 
-if(a!='1' or a!='2'):
-        if a=='1':
+if(e!='1' or e!='2'):
+        if e=='1':
+            
+            url = 'https://api.apis.net.pe/v1/tipo-cambio-sunat'
+            res=requests.get(url)
+            data=res.json()
 
-            def insertData():
-                #obtiene la ruta absoluta
-                path_=os.getcwd()+'\dataTienda.csv'
-                #conection a bd
-                conn=db.Conection('tienda.db')
-                cursor=conn.getCursor()
-                print(path_)
-                df = pd. read_csv (path_, sep = ";") 
-                ### logica para insertar 
-                for i,fila in df.iterrows():
-                    print(fila['ORDER_ID'])
-        
-        elif a=='2':
-            def updateDolar():
-                url = 'https://api.apis.net.pe/v1/tipo-cambio-sunat' #tipo cambio sunat
-                pass
+            dolar_compra=data['compra']
+            dolar_venta=data['venta']
+
+            while True:
+                V_cambio=float(input('ingrese la cantidad a cambiar'))
+                print(dolar_compra*V_cambio)
+
+        elif e=='2':                   
+            b=float(input('Ingrese nuevo valor USD: '))
+            if b>=5:
+                print('fuera de rango')
+            else:
+                historicoDolar.append(b)
+                print(historicoDolar)
 
 else:
-        print("Digite caracter correcto")
+    print("Digite caracter correcto")
