@@ -10,7 +10,8 @@ table = """ CREATE TABLE USUARIOS (
             EMAIL VARCHAR(255) NOT NULL,
             FULLNAME VARCHAR(25) NOT NULL,
             SCORE INT,
-            TIPOUSUARIO VARCHAR(25)
+            TIPOUSUARIO VARCHAR(25),
+            VCOMPRADOLAR VARCHAR(25) NOT NULL
         ); """
 cursor_obj.execute(table)
 cursor_obj.execute("DROP TABLE IF EXISTS PRODUCTOS")
@@ -23,55 +24,41 @@ table = """ CREATE TABLE PRODUCTOS (
             CREACTION_PRODUCT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             UPDATE_PRODUCT TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         ); """
+
+### APORTE
+#PREGUNTA 2
 cursor_obj.execute(table)
-cursor_obj.execute("DROP TABLE IF EXISTS VENTA")
+cursor_obj.execute("DROP TABLE IF EXISTS INFO_T_CHANGES")
 
-table=""" CREATE TABLE VENTA (
-            ORDERID  INTEGER PRIMARY KEY AUTOINCREMENT,
-            PRODUCTID INT, 
-            PRICETOTAL VARCHAR(25) NOT NULL
-        ); """
-
-cursor_obj.execute(table)
-cursor_obj.execute("DROP TABLE IF EXISTS INVENTARIO")
-
-table=""" CREATE TABLE INVENTARIO (
+table=""" CREATE TABLE INFO_T_CHANGES (
             IDMOVIMIENTO  INTEGER PRIMARY KEY AUTOINCREMENT,
-            PRODUCTID INT NOT NULL, 
-            CANTIDAD INT NOT NULL,
-            FECHA_MOVIMIENTO TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            V_VENTA FLOAT NOT NULL, 
+            V_COMPRA FLOAT NOT NULL,    
+            FECHA_INFORME TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+            CENTRO VARCHAR(25)
+
         ); """
+#//////////////////////////////////////////////////////////////
+#PREGUNTA 3
 cursor_obj.execute(table)
+cursor_obj.execute("DROP TABLE IF EXISTS HISTORIAL")
 
-###
-cursor_obj.execute(table)
-cursor_obj.execute("DROP TABLE IF EXISTS TASA_CAMBIO")
-
-table=""" CREATE TABLE TASA_CAMBIO (
-            ORDERID  INTEGER PRIMARY KEY AUTOINCREMENT,
-            PRODUCTID INT, 
-            PRICETOTAL VARCHAR(25) NOT NULL
+table=""" CREATE TABLE HISTORIAL (
+            IDMOVIMIENTO  INTEGER PRIMARY KEY AUTOINCREMENT,
+            USUARIO VARCHAR(25),    
+            FECHA_COMPRA TIMESTAMP DEFAULT CURRENT_TIMESTAMP,   
+            VCOMPRASOL FLOAT NOT NULL,  
+            VCOMPRADOLAR FLOAT NOT NULL,    
+            PRODUCTOS INT NOT NULL,       
+            TIPOUSUARIO VARCHAR(25)     
         ); """
 
-# comentamos las insercciones ya que solo sera parte de la creacion de tablas
-""" insert =" INSERT INTO USUARIOS(USUARIO,PASSWORD,EMAIL,FULLNAME,SCORE,TIPOUSUARIO) VALUES('admin','admin','admin@datux.com','admin datux',0,'admin')"
-
+cursor_obj.execute(table)
+#PREGUNTA 2
+insert="INSERT INTO INFORMACION_TASA_CAMBIOS(V_VENTA,V_COMPRA,FECHA_INFORME,CENTRO) VALUES('3.858','3.853','13/02/23','WESTERN UNION')"
+#PREGUNTA 3
+insert="INSERT INTO HISTORIAL(USUARIO,FECHA_COMPRA,VCOMPRASOL,VCOMPRADOLAR,PRODUCTOS,TIPOUSUARIO) VALUES('HECTOR','13/02/23','259','66.92','4','client')"
 conn.execute(insert)
-insert =" INSERT INTO USUARIOS(USUARIO,PASSWORD,EMAIL,FULLNAME,SCORE,TIPOUSUARIO) VALUES('cliente','cliente','email','cliente',0,'cliente')"
-conn.execute(insert)
+cursor_obj.execute(insert)
 
-
-print("Table is Ready")
-
-print("ingrese valores")
-nameProduct=input('ingrese el nombre del producto')
-price=input('ingrese el PRICE:')
-categria=input('ingrese el CATEGORIA:')
-stock=int(input('ingrese el STCOKACTUAL:'))
-
-insert="INSERT INTO PRODUCTOS(NAMEPRODUCT,PRICE,CATEGORIA,STCOKACTUAL) VALUES(?,?,?,?);"
-data=(nameProduct,price,categria,stock)
-conn.execute(insert,data)
-"""
-
-conn.commit()
+print('tabla lista')
